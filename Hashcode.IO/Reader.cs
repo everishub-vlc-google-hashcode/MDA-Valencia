@@ -1,31 +1,37 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Hashcode.IO
 {
     public class Reader
     {
-        public static async Task<ReadedDto[]> Read(Stream input)
+        public static async Task<Photo[]> Read(Stream input)
         {
-            var dtos = new List<ReadedDto>();
+           
             using (var reader = new StreamReader(input))
             {
-                while (!reader.EndOfStream)
+                var line = reader.ReadLine();
+                var numPhotos = int.Parse(line);
+                var photos = new Photo[numPhotos];
+                for (var i = 0;i<numPhotos;i++)
                 {
 
-                    var line = await reader.ReadLineAsync();
+                    line = await reader.ReadLineAsync();
                     var split = line.Split(' ');
-                    var dto = new ReadedDto()
+                    var photo = new Photo()
                     {
-                        p0 = split[0],
-                        p1 = split[1],
+                        Index = i,
+                        orientation = split[0] == "H" ? Orientation.H : Orientation.V,
+                        NumTags = int.Parse(split[1]),
+                        Tags = split.Skip(2).ToArray()
                     };
-                    dtos.Add(dto);
+                    photos[i] = photo;
                 }
+                return photos;
             }
-
-            return dtos.ToArray();
+            
         }
     }
 }
