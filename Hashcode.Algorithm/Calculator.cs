@@ -96,7 +96,7 @@ namespace Hashcode.Algorithm
 
         }
 
-        private static Slide[] FindBestSlides(Score[] scores)
+        private static Slide[] FindBestSlides(List<Score> scores)
         {
             return new Slide[0];
         }

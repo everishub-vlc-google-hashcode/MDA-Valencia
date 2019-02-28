@@ -13,8 +13,8 @@ namespace Algorithm
         {
             var watch = new Stopwatch();
             watch.Start();
-            var photos = await Reader.Read(File.OpenRead("e_shiny_selfies.txt"));
-            var slides = Calculator.Calculate(photos);
+            var album = await Reader.Read(File.OpenRead("e_shiny_selfies.txt"));
+            var slides = Calculator.Calculate(album);
             await Writer.Write(slides, File.OpenWrite("e_shiny_selfies_output.txt"));
             watch.Stop();
             Console.WriteLine($"Elapsed: {watch.ElapsedMilliseconds/1000.0}");
