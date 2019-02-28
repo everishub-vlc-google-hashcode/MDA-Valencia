@@ -9,9 +9,9 @@ namespace Algorithm
     {
         public static async Task Main(string[] args)
         {
-            var input = await Reader.Read(File.OpenRead("a_example.txt"));
-            var output = await Calculator.Calculate(input);
-            await Writer.Write(output, File.OpenWrite("a_example_output.txt"));
+            var photos = await Reader.Read(File.OpenRead("a_example.txt"));
+            var slides = Calculator.Calculate(photos);
+            await Writer.Write(slides, File.OpenWrite("a_example_output.txt"));
         }
     }
 }

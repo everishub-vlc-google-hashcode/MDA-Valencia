@@ -31,4 +31,11 @@ namespace Hashcode.IO
             return this.PhotoA.Tags;
         }
     }
+
+    public class Score
+    {
+        public int Points { get; set; }
+        public Slide A { get; set; }
+        public Slide B { get; set; }
+    }
 }
