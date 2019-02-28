@@ -19,4 +19,10 @@ namespace Hashcode.IO
     {
         H,V
     }
+
+    public class AlbumPhoto
+    {
+        public List<Photo> Horizontals { get; } = new List<Photo>();
+        public List<Photo> Verticals { get; } = new List<Photo>();
+    }
 }

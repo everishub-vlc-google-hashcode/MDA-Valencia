@@ -9,48 +9,44 @@ namespace Hashcode.Algorithm
 {
     public class Calculator
     {
-        public static Slide[] Calculate(Photo[] photos)
+        public static Slide[] Calculate(AlbumPhoto album)
         {
-            var posibleSlides = GenerateSlides(photos);
+            var posibleSlides = GenerateSlides(album);
             var scores = CalculateScores(posibleSlides);
             var bestSlides = FindBestSlides(scores);
 
             return bestSlides;
         }
-        private static Slide[] GenerateSlides(Photo[] photos)
+        private static List<Slide> GenerateSlides(AlbumPhoto album)
         {
-            var hp = photos
-                 .Where(h => h.orientation == Orientation.H);
-            var slides = hp
+            var slides = album.Horizontals
                  .Select(h => new HorizontalSlide
                  {
                      PhotoA = h
                  }).ToList<Slide>();
-
-            var vp = photos
-                 .Where(h => h.orientation == Orientation.V).ToArray();
-            for (int i = 0; i < vp.Length; i++)
+            
+            for (int i = 0; i < album.Verticals.Count; i++)
             {
-                for (int j = i; j < vp.Length; j++)
+                for (int j = i; j < album.Verticals.Count; j++)
                 {
                     var vs = new VerticalSlide
                     {
-                        PhotoA = vp[i],
-                        PhotoB = vp[j]
+                        PhotoA = album.Verticals[i],
+                        PhotoB = album.Verticals[j]
                     };
                     slides.Add(vs);
                 }
             }
 
-            return slides.ToArray();
+            return slides;
         }
 
-        private static Score[] CalculateScores(Slide[] posibleSlides)
+        private static List<Score> CalculateScores(List<Slide> posibleSlides)
         {
             var scores = new List<Score>();
-            for (int i = 0; i < posibleSlides.Length; i++)
+            for (int i = 0; i < posibleSlides.Count; i++)
             {
-                for (int j = i+1; j < posibleSlides.Length; j++)
+                for (int j = i+1; j < posibleSlides.Count; j++)
                 {
                     var slideA = posibleSlides[i];
                     var slideB = posibleSlides[j];
@@ -72,7 +68,7 @@ namespace Hashcode.Algorithm
                 }
             }
 
-            return scores.ToArray();
+            return scores;
         }
 
         private static int CalculateScore(Slide slideA, Slide slideB)
@@ -91,7 +87,13 @@ namespace Hashcode.Algorithm
 
         private static bool CanCompareSlides(Slide slideA, Slide slideB)
         {
-            return !slideA.Indexes().Any(aix => slideB.Indexes().Contains(aix));
+            if (slideA is VerticalSlide && slideB is VerticalSlide)
+            {
+                return !slideA.Indexes().Any(aix => slideB.Indexes().Contains(aix));
+            }
+
+            return true;
+
         }
 
         private static Slide[] FindBestSlides(Score[] scores)
