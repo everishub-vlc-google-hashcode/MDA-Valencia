@@ -77,11 +77,21 @@ namespace Hashcode.Algorithm
 
         private static int CalculateScore(Slide slideA, Slide slideB)
         {
+            if (!CanCompareSlides(slideA, slideB))
+            {
+                return -1;
+            }
+
             var left = slideA.Tags().Except(slideB.Tags()).Count();
             var intersect = slideA.Tags().Intersect(slideB.Tags()).Count();
             var right = slideB.Tags().Except(slideA.Tags()).Count();
             var values = new[] { left, intersect, right };
             return values.Min();
+        }
+
+        private static bool CanCompareSlides(Slide slideA, Slide slideB)
+        {
+            return !slideA.Indexes().Any(aix => slideB.Indexes().Contains(aix));
         }
 
         private static Slide[] FindBestSlides(Score[] scores)
