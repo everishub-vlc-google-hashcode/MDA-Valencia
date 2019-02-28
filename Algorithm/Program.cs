@@ -1,5 +1,7 @@
-﻿using System;
+﻿using System.IO;
 using System.Threading.Tasks;
+using Hashcode.Algorithm;
+using Hashcode.IO;
 
 namespace Algorithm
 {
@@ -7,8 +9,9 @@ namespace Algorithm
     {
         public static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-            await Task.FromResult(0);
+            var input = await Reader.Read(File.OpenRead("a_example.txt"));
+            var output = await Calculator.Calculate(input);
+            await Writer.Write(output, File.OpenWrite("a_example_output.txt"));
         }
     }
 }
