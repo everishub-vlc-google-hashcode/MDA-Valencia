@@ -96,7 +96,7 @@ namespace Hashcode.Algorithm
 
         private static Slide[] FindBestSlides(Score[] scores)
         {
-            throw new NotImplementedException();
+            return new Slide[0];
         }
 
        
