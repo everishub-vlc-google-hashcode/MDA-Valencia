@@ -5,14 +5,23 @@ namespace Hashcode.IO
 {
     public class Writer
     {
-        public static async Task Write(WritedDto[] input, Stream stream)
+        public static async Task Write(Slide[] slides, Stream stream)
         {
             using (var writer = new StreamWriter(stream))
             {
-                await writer.WriteLineAsync($"{input.Length}");
-                foreach (var dto in input)
+                await writer.WriteLineAsync($"{slides.Length}");
+                foreach (var slide in slides)
                 {
-                    await writer.WriteLineAsync($"{dto.p0} {dto.p1}");
+                    if(slide is HorizontalSlide)
+                    {
+                        var h = slide as HorizontalSlide;
+                        await writer.WriteLineAsync($"{h.PhotoA.Index}");
+                    }
+                    if (slide is VerticalSlide)
+                    {
+                        var v = slide as VerticalSlide;
+                        await writer.WriteLineAsync($"{v.PhotoA.Index} {v.PhotoB.Index}");
+                    }
                 }
             }
         }
