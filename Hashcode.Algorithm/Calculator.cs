@@ -77,7 +77,11 @@ namespace Hashcode.Algorithm
 
         private static int CalculateScore(Slide slideA, Slide slideB)
         {
-            throw new NotImplementedException();
+            var left = slideA.Tags().Except(slideB.Tags()).Count();
+            var intersect = slideA.Tags().Intersect(slideB.Tags()).Count();
+            var right = slideB.Tags().Except(slideA.Tags()).Count();
+            var values = new[] { left, intersect, right };
+            return values.Min();
         }
 
         private static Slide[] FindBestSlides(Score[] scores)
