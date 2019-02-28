@@ -47,6 +47,36 @@ namespace Hashcode.Algorithm
 
         private static Score[] CalculateScores(Slide[] posibleSlides)
         {
+            var scores = new List<Score>();
+            for (int i = 0; i < posibleSlides.Length; i++)
+            {
+                for (int j = i+1; j < posibleSlides.Length; j++)
+                {
+                    var slideA = posibleSlides[i];
+                    var slideB = posibleSlides[j];
+                    var score = CalculateScore(slideA, slideB);
+                    if(score > 0)
+                    {
+                        scores.Add(new Score {
+                            Points = score,
+                            A = slideA,
+                            B = slideB
+                        });
+                        scores.Add(new Score
+                        {
+                            Points = score,
+                            A = slideB,
+                            B = slideA
+                        });
+                    }
+                }
+            }
+
+            return scores.ToArray();
+        }
+
+        private static int CalculateScore(Slide slideA, Slide slideB)
+        {
             throw new NotImplementedException();
         }
 
